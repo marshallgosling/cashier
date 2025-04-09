@@ -55,7 +55,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(117, 17);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Copyright (C) 2011";
+            this.label2.Text = "Copyright (C) 2025";
             // 
             // label1
             // 
@@ -64,9 +64,9 @@
             this.label1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(48, 65);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 17);
+            this.label1.Size = new System.Drawing.Size(68, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "小小收银";
+            this.label1.Text = "序列号工具";
             // 
             // label3
             // 
@@ -75,9 +75,9 @@
             this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.Location = new System.Drawing.Point(48, 119);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(174, 17);
+            this.label3.Size = new System.Drawing.Size(141, 17);
             this.label3.TabIndex = 3;
-            this.label3.Text = "wangyoucao577@gmail.com";
+            this.label3.Text = "nathangao@centlt.com";
             // 
             // About
             // 

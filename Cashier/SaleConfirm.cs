@@ -1,63 +1,65 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Cashier.Properties;
+
 
 namespace Cashier
 {
     public partial class SaleConfirm : Form
     {
-        private string faceRecvPrices = "";
+        private ArrayList list;
+        private String savePath;
 
         public SaleConfirm()
         {
             InitializeComponent();
         }
 
-        public void SetSalesRecv(string price)
+        public void SetOrderNo(string orderNo)
         {
-            salesRecvTextBox.Text = price;
+            orderNoTextBox.Text = orderNo;
         }
 
-        private void FactRecvTextBox_TextChanged(object sender, EventArgs e)
+        public void SetList(ArrayList snList)
         {
-            //先验证输入是否正确
-            string word = ((TextBox)sender).Text.Trim();
-
-            if (!string.IsNullOrEmpty(word) && !ValueMarked.CheckMoney(word))
-            {
-                ((TextBox)sender).Text = faceRecvPrices;//不成功就等于原来的数
-                ((TextBox)sender).SelectionStart = ((TextBox)sender).Text.Length;//把鼠标移到最后面
-
-            }
-            else
-            {
-                faceRecvPrices = word;
-            }
-
-            //计算应找零的值
-            int wantPrice, faceRecv;
-            if (    !string.IsNullOrEmpty(salesRecvTextBox.Text)
-                &&  int.TryParse(salesRecvTextBox.Text, out wantPrice)
-                &&  !string.IsNullOrEmpty(FactRecvTextBox.Text)
-                &&  int.TryParse(FactRecvTextBox.Text, out faceRecv))
-            {
-                returnBackTextBox.Text = (faceRecv - wantPrice).ToString();
-            }
+            list = snList;
+            snTotalTextBox.Text = list.Count.ToString();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "请选择文件路径";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                savePath = dialog.SelectedPath + "\\sn_"+ orderNoTextBox.Text + "_"+list.Count.ToString()+".xls";
+
+
+                if(Excel.ListToExcel(savePath, list, orderNoTextBox.Text, Settings.Default.columns))
+                {
+
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                   
+                }
+            }
+            
         }
     }
 }

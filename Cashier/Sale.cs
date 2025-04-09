@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Threading;
+using System.Collections;
+using System.Drawing;
+
 
 namespace Cashier
 {
@@ -14,17 +12,13 @@ namespace Cashier
         private DataSource m_dataSource = new DataSource();
         private string faceSalesPrice = "";
         SaleConfirm m_sc = null;
+        private ArrayList m_list = new ArrayList();
 
         public Sale()
         {
             InitializeComponent();
         }
 
-        private void 关于ToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            About about = new About();
-            about.Show();
-        }
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
@@ -36,7 +30,7 @@ namespace Cashier
 
         }
 
-        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -48,7 +42,7 @@ namespace Cashier
 
         private void Sale_Load(object sender, EventArgs e)
         {
-            m_dataSource.Init("SnProducts.dat");
+            //m_dataSource.Init("SnProducts.dat");
         }
 
         private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -63,14 +57,26 @@ namespace Cashier
 
         private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (1 == e.ColumnIndex && m_dataSource.IsInited())
+            if (null != dataGridView[1, e.RowIndex].Value)
             {
-                //Clothing clo = m_dataSource.GetClothing((string)dataGridView[1, e.RowIndex].Value);
-                //if (null != clo)
-                //{
-                //    dataGridView[2, e.RowIndex].Value = clo.Name;
-                //}
+                string sn = dataGridView[1, e.RowIndex].Value.ToString();
+                if (!string.IsNullOrEmpty(sn))
+                {
+                    if( m_list.Contains(sn))
+                    {
+                        dataGridView[2, e.RowIndex].Value = "重复";
+                        dataGridView[2, e.RowIndex].Style.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        m_list.Add(sn);
+                        dataGridView[2, e.RowIndex].Value = "正常";
+                    }
+                }
+
             }
+
+            
             //else if (4 == e.ColumnIndex || 5 == e.ColumnIndex || 6 == e.ColumnIndex)
             //{
             //    if (4 == e.ColumnIndex)
@@ -99,7 +105,7 @@ namespace Cashier
             //                {
             //                    dataGridView[5, e.RowIndex].Value = (int)new_price + 1;
             //                }
-                            
+
             //            }
             //        }
             //    }
@@ -138,10 +144,10 @@ namespace Cashier
             //        {
             //            dataGridView[7, e.RowIndex].Value = factPrice * count;
             //        }
-                    
+
             //    }
 
-                
+
             //}
             //else if (3 == e.ColumnIndex)
             //{
@@ -163,18 +169,18 @@ namespace Cashier
             //            dataGridView[4, e.RowIndex].Value = newPrice * 100 / oldPrice;
             //        }
             //    }
-                
-            //}
-             
 
-            
+            //}
+
+
+
             //金额有改动，则修改应付款和优惠金额
 
             //int prices = 0, salesPrices = 0, upOffPrices = 0;
-            foreach (DataGridViewRow item in dataGridView.Rows)
-            {
-                int dup; 
-                int count;
+            //foreach (DataGridViewRow item in dataGridView.Rows)
+            //{
+            //    int dup; 
+            //    int count;
                 //if (    null != item.Cells[3].Value && int.TryParse(item.Cells[3].Value.ToString(), out price)
                 //    && null != item.Cells[6].Value && int.TryParse(item.Cells[6].Value.ToString(), out count))
                 //{
@@ -192,9 +198,9 @@ namespace Cashier
                 //    }
                 //}
 
-            }
+            //}
 
-            duplicateTextBox.Text = "0";
+            //orderNoTextBox.Text = "0";
             totalTextBox.Text = (dataGridView.Rows.Count - 1).ToString();
             
         }
@@ -328,7 +334,7 @@ namespace Cashier
             {
                 
                 dataGridView.Rows.Remove(dataGridView.CurrentRow);
-
+                
             }
             
         }
@@ -337,21 +343,51 @@ namespace Cashier
         {
             dataGridView.Rows.Clear();
             totalTextBox.Text = "";
-            duplicateTextBox.Text = "";
+            orderNoTextBox.Text = "";
+            m_list.Clear();
         }
 
         private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-
+            m_list.Clear();
             foreach (DataGridViewRow item in dataGridView.Rows)
             {
                 item.Cells[0].Value = item.Index + 1;
+
+                if (null == item.Cells[1].Value) continue;
+
+                if (m_list.Contains(item.Cells[1].Value.ToString()))
+                {
+                    item.Cells[2].Value = "重复";
+                    item.Cells[2].Style.ForeColor = Color.Red;
+                }
+                else
+                {
+                    m_list.Add(item.Cells[1].Value.ToString());
+                    item.Cells[2].Value = "正常";
+                    item.Cells[2].Style.ForeColor = Color.Black;
+                }
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            SaleConfirm save = new SaleConfirm();
+            save.SetOrderNo(orderNoTextBox.Text);
+            save.SetList(m_list);
+            save.Show();
+        }
 
+        private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.Show();
+        }
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm setting = new SettingsForm();
+            setting.Show();
         }
     }
 }

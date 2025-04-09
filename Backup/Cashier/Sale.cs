@@ -1,0 +1,357 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Threading;
+
+namespace Cashier
+{
+    public partial class Sale : Form
+    {
+        private DataSource m_dataSource = new DataSource();
+        private string faceSalesPrice = "";
+        SaleConfirm m_sc = null;
+
+        public Sale()
+        {
+            InitializeComponent();
+        }
+
+        private void 关于ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.Show();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Sale_Load(object sender, EventArgs e)
+        {
+            m_dataSource.Init("SnProducts.dat");
+        }
+
+        private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_CurrentCellChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (1 == e.ColumnIndex && m_dataSource.IsInited())
+            {
+                //Clothing clo = m_dataSource.GetClothing((string)dataGridView[1, e.RowIndex].Value);
+                //if (null != clo)
+                //{
+                //    dataGridView[2, e.RowIndex].Value = clo.Name;
+                //}
+            }
+            //else if (4 == e.ColumnIndex || 5 == e.ColumnIndex || 6 == e.ColumnIndex)
+            //{
+            //    if (4 == e.ColumnIndex)
+            //    {
+            //        //折扣变化，则根据原价修改结算价
+
+            //        if (    null != dataGridView[3, e.RowIndex].Value
+            //            &&  null != dataGridView[4, e.RowIndex].Value
+            //            &&  !string.IsNullOrEmpty(dataGridView[3, e.RowIndex].Value.ToString())
+            //            &&  !string.IsNullOrEmpty(dataGridView[4, e.RowIndex].Value.ToString()))
+            //        {
+            //            int oldPrice;
+            //            int discount;
+            //            if (    int.TryParse(dataGridView[3, e.RowIndex].Value.ToString(), out oldPrice)
+            //                && int.TryParse(dataGridView[4, e.RowIndex].Value.ToString(), out discount)
+            //                &&  discount > 0
+            //                &&  discount <= 100
+            //                &&  oldPrice >= 0)
+            //            {
+            //                double new_price = (double)oldPrice * discount / 100;
+            //                if ((double)(int)new_price == new_price)
+            //                {
+            //                    dataGridView[5, e.RowIndex].Value = (int)new_price;
+            //                }
+            //                else
+            //                {
+            //                    dataGridView[5, e.RowIndex].Value = (int)new_price + 1;
+            //                }
+                            
+            //            }
+            //        }
+            //    }
+            //    else if (5 == e.ColumnIndex)
+            //    {
+            //        //结算价变化，则根据原价计算折扣
+            //        if (null != dataGridView[3, e.RowIndex].Value
+            //        && null != dataGridView[5, e.RowIndex].Value
+            //        && !string.IsNullOrEmpty(dataGridView[3, e.RowIndex].Value.ToString())
+            //        && !string.IsNullOrEmpty(dataGridView[5, e.RowIndex].Value.ToString()))
+            //        {
+            //            int oldPrice;
+            //            int newPrice;
+            //            if (int.TryParse(dataGridView[3, e.RowIndex].Value.ToString(), out oldPrice)
+            //                && int.TryParse(dataGridView[5, e.RowIndex].Value.ToString(), out newPrice)
+            //                && oldPrice > 0
+            //                && newPrice > 0
+            //                && newPrice <= oldPrice)
+            //            {
+            //                dataGridView[4, e.RowIndex].Value = newPrice * 100 / oldPrice;
+            //            }
+            //        }
+            //    }
+
+
+            //    //结算价或数量或折扣变化，则计算金额
+            //    if (    null != dataGridView[5, e.RowIndex].Value
+            //        &&  null != dataGridView[6, e.RowIndex].Value
+            //        &&  !string.IsNullOrEmpty(dataGridView[5, e.RowIndex].Value.ToString())
+            //        &&  !string.IsNullOrEmpty(dataGridView[6, e.RowIndex].Value.ToString()))
+            //    {
+            //        int factPrice;
+            //        int count;
+            //        if(     int.TryParse(dataGridView[5, e.RowIndex].Value.ToString(), out factPrice)
+            //            &&  int.TryParse(dataGridView[6, e.RowIndex].Value.ToString(), out count))
+            //        {
+            //            dataGridView[7, e.RowIndex].Value = factPrice * count;
+            //        }
+                    
+            //    }
+
+                
+            //}
+            //else if (3 == e.ColumnIndex)
+            //{
+            //    //原价变化，则根据结算价修改折扣
+
+            //    if (    null != dataGridView[3, e.RowIndex].Value
+            //        &&  null != dataGridView[5, e.RowIndex].Value
+            //        &&  !string.IsNullOrEmpty(dataGridView[3, e.RowIndex].Value.ToString())
+            //        &&  !string.IsNullOrEmpty(dataGridView[5, e.RowIndex].Value.ToString()))
+            //    {
+            //        int oldPrice;
+            //        int newPrice;
+            //        if (    int.TryParse(dataGridView[3, e.RowIndex].Value.ToString(), out oldPrice)
+            //            &&  int.TryParse(dataGridView[5, e.RowIndex].Value.ToString(), out newPrice)
+            //            &&  oldPrice > 0 
+            //            &&  newPrice > 0
+            //            &&  newPrice <= oldPrice)
+            //        {
+            //            dataGridView[4, e.RowIndex].Value = newPrice * 100 / oldPrice;
+            //        }
+            //    }
+                
+            //}
+             
+
+            
+            //金额有改动，则修改应付款和优惠金额
+
+            //int prices = 0, salesPrices = 0, upOffPrices = 0;
+            foreach (DataGridViewRow item in dataGridView.Rows)
+            {
+                int dup; 
+                int count;
+                //if (    null != item.Cells[3].Value && int.TryParse(item.Cells[3].Value.ToString(), out price)
+                //    && null != item.Cells[6].Value && int.TryParse(item.Cells[6].Value.ToString(), out count))
+                //{
+                //    prices = (price * count);
+                //}
+
+                //int salePrice;
+                //if (null != item.Cells[7].Value && int.TryParse(item.Cells[7].Value.ToString(), out salePrice))
+                //{
+                //    salesPrices += salePrice;
+
+                //    if (salePrice > 0)
+                //    {
+                //        upOffPrices += prices - salePrice;
+                //    }
+                //}
+
+            }
+
+            duplicateTextBox.Text = "0";
+            totalTextBox.Text = (dataGridView.Rows.Count - 1).ToString();
+            
+        }
+
+        private void dataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            //if (3 == e.ColumnIndex || 5 == e.ColumnIndex || 7 == e.ColumnIndex)
+            //{
+            //    int oldPrice;
+            //    int newPrice;
+            //    if (   !string.IsNullOrEmpty(e.FormattedValue.ToString()) 
+            //       &&  !ValueMarked.CheckMoney(e.FormattedValue.ToString()))
+            //    {
+            //        //非货币
+            //        e.Cancel = true;
+            //        this.dataGridView.CancelEdit();
+            //    }
+            //    else if (e.ColumnIndex == 3)
+            //    {
+            //        if (int.TryParse(e.FormattedValue.ToString(), out oldPrice))
+            //        {
+            //            if (oldPrice < 0)
+            //            {
+            //                //原价输入负值
+            //                e.Cancel = true;
+            //                this.dataGridView.CancelEdit();
+            //            }
+
+            //            if (dataGridView[5, e.RowIndex].Value != null
+            //               &&   int.TryParse(dataGridView[5, e.RowIndex].Value.ToString(), out newPrice)
+            //               &&   newPrice > oldPrice)
+            //            {
+            //                                            //结算价高于原价或原价输入负值
+            //                e.Cancel = true;
+            //                this.dataGridView.CancelEdit();
+            //            }
+            //        }
+
+            //    }
+            //    else if (e.ColumnIndex == 5)
+            //    {
+
+            //        if (int.TryParse(e.FormattedValue.ToString(), out newPrice))
+            //        {
+            //            if (newPrice < 0)
+            //            {
+            //                //结算价输入负值
+            //                e.Cancel = true;
+            //                this.dataGridView.CancelEdit();
+            //            }
+
+            //            if (dataGridView[3, e.RowIndex].Value != null
+            //               && int.TryParse(dataGridView[3, e.RowIndex].Value.ToString(), out oldPrice)
+            //               && newPrice > oldPrice)
+            //            {
+            //                //结算价高于原价
+            //                e.Cancel = true;
+            //                this.dataGridView.CancelEdit();
+            //            }
+            //        }
+
+            //    }
+                
+            //}
+            //else if (4 == e.ColumnIndex)
+            //{
+            //    int discount;
+            //    if (    string.IsNullOrEmpty(e.FormattedValue.ToString()) 
+            //        ||  !int.TryParse(e.FormattedValue.ToString(), out discount)
+            //        ||  discount > 100
+            //        ||  discount <= 0)
+            //    {
+            //        e.Cancel = true;
+            //        this.dataGridView.CancelEdit();
+            //    }
+            //}
+            //else if (6 == e.ColumnIndex)
+            //{
+            //    int count;
+            //    if (string.IsNullOrEmpty(e.FormattedValue.ToString())
+            //        || !int.TryParse(e.FormattedValue.ToString(), out count)
+            //        || count > 999
+            //        || count < -999)
+            //    {
+            //        e.Cancel = true;
+            //        this.dataGridView.CancelEdit();
+            //    }
+            //}
+        }
+
+        
+
+        private void dataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            
+            e.Row.Cells[0].Value = e.Row.Index + 1;
+            //e.Row.Cells[3].Value = null;
+            //e.Row.Cells[4].Value = 100;
+            //e.Row.Cells[5].Value = null;
+            //e.Row.Cells[6].Value = 1;
+            //e.Row.Cells[7].Value = null;
+
+
+        }
+
+        private void dataContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView_MouseUp(object sender, MouseEventArgs e)
+        {
+
+        }
+
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (    null != dataGridView.CurrentRow 
+                &&  dataGridView.CurrentRow.Index < dataGridView.Rows.Count - 1)
+            {
+                
+                dataGridView.Rows.Remove(dataGridView.CurrentRow);
+
+            }
+            
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            dataGridView.Rows.Clear();
+            totalTextBox.Text = "";
+            duplicateTextBox.Text = "";
+        }
+
+        private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+
+            foreach (DataGridViewRow item in dataGridView.Rows)
+            {
+                item.Cells[0].Value = item.Index + 1;
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
